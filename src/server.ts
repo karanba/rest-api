@@ -12,12 +12,18 @@ import { isInteger } from "./utils";
 import { logger } from "./logger";
 import { AppDataSources } from "./data-source";
 import { getAllCourses } from "./routes/get-all-courses";
+import { defaultErrorHandler } from "./middlewares/default-error-handler";
+import { findCourseByUrl } from "./routes/find-course-by-url";
+const cors = require("cors");
 
 const app = express();
 
 function setupExpress() {
+	app.use(cors({ origin: true }));
 	app.route("/").get(root);
 	app.route("/api/courses").get(getAllCourses);
+	app.route("/api/courses/:courseUrl").get(findCourseByUrl);
+	app.use(defaultErrorHandler);
 }
 
 function startServer() {
