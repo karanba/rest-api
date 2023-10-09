@@ -14,6 +14,7 @@ import { AppDataSources } from "./data-source";
 import { getAllCourses } from "./routes/get-all-courses";
 import { defaultErrorHandler } from "./middlewares/default-error-handler";
 import { findCourseByUrl } from "./routes/find-course-by-url";
+import { findLessonsForCourse } from "./routes/find-lessons-for-course";
 const cors = require("cors");
 
 const app = express();
@@ -23,6 +24,7 @@ function setupExpress() {
 	app.route("/").get(root);
 	app.route("/api/courses").get(getAllCourses);
 	app.route("/api/courses/:courseUrl").get(findCourseByUrl);
+	app.route("/api/courses/:courseId/lessons").get(findLessonsForCourse);
 	app.use(defaultErrorHandler);
 }
 
