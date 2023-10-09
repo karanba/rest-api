@@ -9,7 +9,7 @@ export async function findLessonsForCourse(request: Request, response: Response,
 	try {
 		logger.debug("Called findLessonsForCourse()");
 		const courseId = request.params.courseId;
-		const query = request.params.query as any;
+		const query = request.query as any;
 		const pageNumber = query?.pageNumber ?? "0";
 		const pageSize = query?.pageSize ?? "3";
 
