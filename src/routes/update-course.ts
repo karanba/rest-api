@@ -21,7 +21,7 @@ export async function updateCourse(request: Request, response: Response, next: N
 			.execute();
 
 		response.status(200).json({
-			message: `Course ${courseId} successfully`,
+			message: `Course ${courseId} updated successfully`,
 		});
 	} catch (error) {
 		logger.error("Error Calling updateCourse()", error);

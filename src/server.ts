@@ -16,6 +16,8 @@ import { defaultErrorHandler } from "./middlewares/default-error-handler";
 import { findCourseByUrl } from "./routes/find-course-by-url";
 import { findLessonsForCourse } from "./routes/find-lessons-for-course";
 import { updateCourse } from "./routes/update-course";
+import { createCourse } from "./routes/create-course";
+import { deleteCourse } from "./routes/delete-course";
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
@@ -29,6 +31,8 @@ function setupExpress() {
 	app.route("/api/courses/:courseUrl").get(findCourseByUrl);
 	app.route("/api/courses/:courseId/lessons").get(findLessonsForCourse);
 	app.route("/api/courses/:courseId").patch(updateCourse);
+	app.route("/api/courses").post(createCourse);
+	app.route("/api/courses/:courseId").delete(deleteCourse);
 	app.use(defaultErrorHandler);
 }
 
