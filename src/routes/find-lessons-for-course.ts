@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { logger } from "../logger";
 import { AppDataSources } from "../data-source";
-import { Course } from "../models/course";
 import { Lesson } from "../models/lesson";
 import { isInteger } from "../utils";
 
