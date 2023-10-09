@@ -2,17 +2,20 @@ import * as dotenv from "dotenv";
 const result = dotenv.config();
 
 import "reflect-metadata";
-import { COURSES } from "./db-data";
+import { COURSES, USERS } from "./db-data";
 import { AppDataSources } from "../data-source";
 import { Course } from "./course";
 import { DeepPartial } from "typeorm";
 import { Lesson } from "./lesson";
+import { User } from "./user";
+import { calculatePasswordHash } from "../utils";
 
 async function populateDb() {
 	await AppDataSources.initialize();
 	console.log("Database initialized");
 
 	const courses = Object.values(COURSES) as DeepPartial<Course>[];
+	const users = Object.values(USERS) as any[];
 	const courseRepository = AppDataSources.getRepository(Course);
 	const lessonRepository = AppDataSources.getRepository(Lesson);
 
@@ -27,6 +30,20 @@ async function populateDb() {
 			lesson.course = course;
 			await lessonRepository.save(lesson);
 		}
+	}
+
+	const userRepository = AppDataSources.getRepository(User);
+	for (let userData of users) {
+		console.log(`Inserting users ${userData.email}`);
+		const { email, pictureUrl, isAdmin, passwordSalt, plainTextPassword } = userData;
+		const user = userRepository.create({
+			email,
+			pictureUrl,
+			isAdmin,
+			passwordSalt,
+			passwordHash: await calculatePasswordHash(plainTextPassword, passwordSalt),
+		});
+		await userRepository.save(user);
 	}
 
 	const totalCourses = await courseRepository.createQueryBuilder().getCount();
