@@ -5,7 +5,7 @@ import { Course } from "../models/course";
 
 export async function getAllCourses(request: Request, response: Response, next: NextFunction) {
 	try {
-		logger.debug("Called getAllCourses()");
+		logger.debug("Called getAllCourses()", request["user"]);
 
 		const courses = await AppDataSources.getRepository(Course)
 			.createQueryBuilder("courses")
