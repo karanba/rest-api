@@ -1,32 +1,32 @@
-import { NextFunction, Request, Response } from "express";
-import { logger } from "../logger";
-import { AppDataSources } from "../data-source";
-import { calculatePasswordHash } from "../utils";
-import { User } from "../models/user";
-const crypto = require("crypto");
+import { type NextFunction, type Request, type Response } from 'express';
+import { logger } from '../logger';
+import { AppDataSources } from '../data-source';
+import { calculatePasswordHash } from '../utils';
+import { User } from '../models/user';
+const crypto = require('crypto');
 const JWT_SECRET = process.env.JWT_SECRET;
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-export async function login(request: Request, response: Response, next: NextFunction) {
+export async function login(request: Request, response: Response, next: NextFunction): Promise<void> {
 	try {
-		logger.debug("Called login()");
+		logger.debug('Called login()');
 		const { email, password } = request.body;
 
 		if (!email) {
-			throw `Could not extract the email from request, aborting.`;
+			throw Error(`Could not extract the email from request, aborting.`);
 		}
 
 		if (!password) {
-			throw `Could not extract the password from request, aborting.`;
+			throw Error(`Could not extract the password from request, aborting.`);
 		}
 
 		const user = await AppDataSources.getRepository(User)
-			.createQueryBuilder("users")
-			.where("email = :email", { email })
+			.createQueryBuilder('users')
+			.where('email = :email', { email })
 			.getOne();
 
 		if (!user) {
-			const message = "Login is denied.";
+			const message = 'Login is denied.';
 			logger.info(`${message} - ${email}`);
 			response.status(403).json({ message });
 			return;
@@ -34,7 +34,7 @@ export async function login(request: Request, response: Response, next: NextFunc
 
 		const passwordHash = await calculatePasswordHash(password, user.passwordSalt);
 		if (passwordHash !== user.passwordHash) {
-			const message = "Login is denied.";
+			const message = 'Login is denied.';
 			logger.info(`${message} - ${email}`);
 			response.status(403).json({ message });
 			return;
@@ -53,7 +53,7 @@ export async function login(request: Request, response: Response, next: NextFunc
 
 		response.status(200).json({ user: { email, pictureUrl, isAdmin }, authJwtToken });
 	} catch (error) {
-		logger.error("Error Calling login()", error);
-		return next(error);
+		logger.error('Error Calling login()', error);
+		next(error);
 	}
 }

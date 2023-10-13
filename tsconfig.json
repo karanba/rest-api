@@ -3,6 +3,10 @@
 		"target": "ES5",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"strictNullChecks": true
+	},
+	"eslint": {
+		"validate": ["javascript", { "language": "typescript", "autoFix": true }]
 	}
 }

@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+/* eslint-disable editorconfig/indent */
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({
-	name: "USERS",
+	name: 'USERS',
 })
 export class User {
 	@PrimaryGeneratedColumn()

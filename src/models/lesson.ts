@@ -6,11 +6,11 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
-} from "typeorm";
-import { Course } from "./course";
+} from 'typeorm';
+import { Course } from './course';
 
 @Entity({
-	name: "LESSONS",
+	name: 'LESSONS',
 })
 export class Lesson {
 	@PrimaryGeneratedColumn()
@@ -27,7 +27,7 @@ export class Lesson {
 
 	@ManyToOne(() => Course, (course) => course.lessons)
 	@JoinColumn({
-		name: "courseId",
+		name: 'courseId',
 	})
 	course: Course;
 

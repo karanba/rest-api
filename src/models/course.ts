@@ -1,8 +1,8 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Lesson } from "./lesson";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Lesson } from './lesson';
 
 @Entity({
-	name: "COURSES",
+	name: 'COURSES',
 })
 export class Course {
 	@PrimaryGeneratedColumn()
